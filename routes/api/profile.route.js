@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const Profile = require("../../Models/Profile");
+const Profile = require("../../models/Profile.model");
 const { check, validationResult } = require("express-validator");
 const request = require("request");
 const config = require("config");

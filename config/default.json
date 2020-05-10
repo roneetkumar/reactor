@@ -1,3 +1,4 @@
 {
-    "mongoURI": "mongodb+srv://roneetkumar:v@t6mGipWjyW9ys@reactor-db-pbvec.mongodb.net/test?retryWrites=true&w=majority"
+    "mongoURI": "mongodb+srv://roneetkumar:v@t6mGipWjyW9ys@reactor-db-pbvec.mongodb.net/test?retryWrites=true&w=majority",
+    "jwtSecret": "winteriscoming"
 }

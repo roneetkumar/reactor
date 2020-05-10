@@ -9,23 +9,24 @@ const ProfileSchema = new mongoose.Schema({
   website: {
     type: String,
   },
+
   location: {
     type: String,
   },
+
   status: {
     type: String,
     required: true,
   },
-  skills: {
-    type: [String],
-    required: true,
-  },
+
   bio: {
     type: String,
   },
+
   githubusername: {
     type: String,
   },
+
   expirence: [
     {
       title: {
@@ -88,23 +89,18 @@ const ProfileSchema = new mongoose.Schema({
       },
     },
   ],
-  social: {
-    youtube: {
-      type: String,
-    },
-    twitter: {
-      type: String,
-    },
-    facebook: {
-      type: String,
-    },
-    linkdin: {
-      type: String,
-    },
-    instagram: {
-      type: String,
-    },
-  },
+  links: [
+    {
+      label: {
+        type: String,
+        required: true
+      },
+      link: {
+        type: String,
+        required: true
+      }
+    }
+  ],
   date: {
     type: Date,
     default: Date.now,
