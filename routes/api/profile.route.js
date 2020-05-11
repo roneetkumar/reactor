@@ -8,11 +8,18 @@ const config = require("config");
 //@route  GET api/profile
 //@desc   get  user profile
 //@access private
-router.get("/", (req, res) => {
+router.get("/me", auth, async (req, res) => {
   try {
-    res.send("get profile route");
-  } catch (error) {
-    console.log(error.message);
+    const profile = await Profile.findOne({
+      user: req.user.id,
+    }).populate("users", ["name", "avatar", "type"]);
+
+    if (!profile) {
+      return res.status(400).json({ msg: "There is no profile for this user" });
+    }
+    res.json(profile);
+  } catch (err) {
+    console.error(err.message);
     res.status(500).send("server error");
   }
 });
