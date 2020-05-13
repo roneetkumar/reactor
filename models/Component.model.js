@@ -3,15 +3,18 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const ComponentSchema = new Schema({
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "user",
-  },
-
   name: {
     type: String,
     required: true,
   },
+  downloadedBy: [
+    {
+      user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "user",
+      },
+    },
+  ],
   images: [
     {
       url: {
@@ -58,10 +61,7 @@ const ComponentSchema = new Schema({
       },
     },
   ],
-  downloads: {
-    type: Number,
-    required: true,
-  },
+
   size: {
     type: String,
     required: true,

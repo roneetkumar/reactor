@@ -1,39 +1,15 @@
 const mongoose = require("mongoose");
-const extendSchema = require("mongoose-extend-schema");
 
 const ProfileSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "user",
   },
-  location: {
+  website: {
     type: String,
   },
-  date: {
-    type: Date,
-    default: Date.now,
-  },
-  followings: [
-    {
-      user: {
-        type: Schema.Types.ObjectId,
-        ref: "user",
-      },
-    },
-  ],
 
-  downloaded: [
-    {
-      component: {
-        type: Schema.Types.ObjectId,
-        ref: "component",
-      },
-    },
-  ],
-});
-
-const DevProfile = extendSchema(ProfileSchema, {
-  website: {
+  location: {
     type: String,
   },
 
@@ -50,7 +26,7 @@ const DevProfile = extendSchema(ProfileSchema, {
     type: String,
   },
 
-  expirence: [
+  experience: [
     {
       title: {
         type: String,
@@ -124,15 +100,18 @@ const DevProfile = extendSchema(ProfileSchema, {
       },
     },
   ],
+  date: {
+    type: Date,
+    default: Date.now,
+  },
   followers: [
     {
       user: {
-        type: Schema.Types.ObjectId,
-        ref: "user",
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "users",
       },
     },
   ],
 });
 
 module.exports = Profile = mongoose.model("profile", ProfileSchema);
-module.exports = DevProfile = mongoose.model("devProfile", DevProfile);
