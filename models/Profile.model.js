@@ -18,6 +18,10 @@ const ProfileSchema = new mongoose.Schema({
     required: true,
   },
 
+  avatar: {
+    type: String,
+  },
+
   bio: {
     type: String,
   },

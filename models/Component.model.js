@@ -7,6 +7,10 @@ const ComponentSchema = new Schema({
     type: String,
     required: true,
   },
+  profile: {
+    type: Schema.Types.ObjectId,
+    ref: "profile",
+  },
   downloadedBy: [
     {
       user: {
@@ -30,6 +34,7 @@ const ComponentSchema = new Schema({
 
   ratings: [
     {
+
       description: {
         type: String,
       },
@@ -64,13 +69,10 @@ const ComponentSchema = new Schema({
 
   size: {
     type: String,
-    required: true,
+    // required: true,
   },
   creator: {
-    profile: {
-      type: Schema.Types.ObjectId,
-      ref: "profile",
-    },
+
     name: {
       type: String,
       required: true,
@@ -84,6 +86,24 @@ const ComponentSchema = new Schema({
       required: true,
     },
   },
+  url: {
+    type: String,
+    required: true
+  }
 });
 
 module.exports = Component = mongoose.model("component", ComponentSchema);
+
+
+// let profile = await Profile.findOne({
+//   user: req.user.id,
+// })
+//   .populate("profilePicture")
+//   .populate("user", ["name", "type"]);
+// console.log(profile);
+// const newPost = new Post({
+//   text: req.body.text,
+//   name: profile.user.name,
+//   profilePicture: profile.profilePicture,
+//   user: req.user.id,
+// });
