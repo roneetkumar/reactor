@@ -15,7 +15,7 @@
 
 - component
 
-  - api/component [post]
+  - api/profile/component [post]
   - api/component/:id [get]
   - api/components [get]
   - api/component/:id [delete]
