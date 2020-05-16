@@ -103,7 +103,7 @@ router.get("/", async (req, res) => {
     res.json(profiles);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send("servre error");
+    res.status(500).send("server error");
   }
 });
 
@@ -111,6 +111,7 @@ router.get("/", async (req, res) => {
 //@desc  get  profile  by user id
 //@access public
 router.get("/:profileid", async (req, res) => {
+
   try {
     const profile = await Profile.findOne({
       _id: req.params.profileid,
@@ -125,7 +126,7 @@ router.get("/:profileid", async (req, res) => {
     if (err.kind === "ObjectId") {
       return res.status(400).json({ msg: "there is no profile for this user" });
     }
-    res.status(500).send("servre error");
+    res.status(500).send("server error");
   }
 });
 

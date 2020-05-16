@@ -8,7 +8,7 @@ const ComponentSchema = new Schema({
     required: true,
   },
   profile: {
-    type: Schema.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: "profile",
   },
   downloadedBy: [
@@ -61,7 +61,7 @@ const ComponentSchema = new Schema({
   likes: [
     {
       user: {
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: "user",
       },
     },
@@ -93,17 +93,3 @@ const ComponentSchema = new Schema({
 });
 
 module.exports = Component = mongoose.model("component", ComponentSchema);
-
-
-// let profile = await Profile.findOne({
-//   user: req.user.id,
-// })
-//   .populate("profilePicture")
-//   .populate("user", ["name", "type"]);
-// console.log(profile);
-// const newPost = new Post({
-//   text: req.body.text,
-//   name: profile.user.name,
-//   profilePicture: profile.profilePicture,
-//   user: req.user.id,
-// });
