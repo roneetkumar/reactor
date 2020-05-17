@@ -31,19 +31,17 @@ const ComponentSchema = new Schema({
     type: String,
     required: true,
   },
-
   ratings: [
     {
-
-      description: {
+      text: {
         type: String,
+      },
+      userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "user",
       },
       stars: {
         type: Number,
-        required: true,
-      },
-      text: {
-        type: String,
         required: true,
       },
       name: {
@@ -69,7 +67,6 @@ const ComponentSchema = new Schema({
 
   size: {
     type: String,
-    // required: true,
   },
   creator: {
 

@@ -14,9 +14,20 @@
   - api/profile/:id [delete]
 
 - component
-
-  - api/profile/component [post]
+  - api/component [post]
+  - api/component [get]
+  - api/component/profile/:id [get]
   - api/component/:id [get]
-  - api/components [get]
   - api/component/:id [delete]
   - api/component/:id [put]
+
+- like
+  - api/component/:id/like [put]
+  - api/component/:id/unlike [put]
+
+- rating
+  - api/component/:id/rating [get] done
+  - api/component/:id/rating [post] not done
+  - api/component/:id/rating/:id [delete] done
+  - api/component/:id/rating/:id [put] not done
+  - api/component/:id/rating/:id [get] done
