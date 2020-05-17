@@ -26,8 +26,10 @@
   - api/component/:id/unlike [put]
 
 - rating
-  - api/component/:id/rating [get] done
-  - api/component/:id/rating [post] not done
-  - api/component/:id/rating/:id [delete] done
+  - api/component/:id/rating [get]
+  - api/component/:id/rating/:id [delete]
+  - api/component/:id/rating/:id [get]
+
+  --TODO--
+  - api/component/:id/rating [post] review
   - api/component/:id/rating/:id [put] not done
-  - api/component/:id/rating/:id [get] done

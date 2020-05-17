@@ -240,11 +240,9 @@ router.post('/:id/rating', [
     }
 
     try {
-
         const profile = await Profile.findOne({
             user: req.user.id,
         }).populate("user", ["name"]);
-
 
         let component = await Component.findById(req.params.id);
 
@@ -256,10 +254,21 @@ router.post('/:id/rating', [
             avatar: profile.avatar,
         }
 
-        component.ratings.unshift(rating);
+        let found = false;
+
+        for (let i = 0; i < component.ratings.length; i++) {
+            if (component.ratings[i].userId.toString() === req.user.id.toString()) {
+                component.ratings[i] = rating;
+                found = true
+                break;
+            }
+        }
+
+        if (!found) {
+            component.ratings.unshift(rating);
+        }
 
         await component.save();
-
         res.json(component);
 
     } catch (error) {
@@ -282,9 +291,7 @@ router.get('/:id/rating', async (req, res) => {
 
     } catch (error) {
         console.error(error.message);
-        if (error.kind === "ObjectId") {
-            return res.status(400).json({ msg: "rating does not exist" });
-        }
+        if (error.kind === "ObjectId") return res.status(400).json({ msg: "rating does not exist" });
         res.status(500).send("server error");
     }
 })
@@ -302,18 +309,13 @@ router.get('/:id/rating/:ratingId', async (req, res) => {
 
         const rating = component.ratings.filter(rating => rating._id.toString() === req.params.ratingId.toString())
 
-
-        if (rating.length === 0) {
-            return res.status(400).json({ msg: "rating does not exist." });
-        }
+        if (rating.length === 0) return res.status(400).json({ msg: "rating does not exist." });
 
         res.json(rating);
 
     } catch (error) {
         console.error(error.message);
-        if (error.kind === "ObjectId") {
-            return res.status(400).json({ msg: "rating does not exist" });
-        }
+        if (error.kind === "ObjectId") return res.status(400).json({ msg: "rating does not exist" });
         res.status(500).send("server error");
     }
 })
@@ -333,16 +335,12 @@ router.delete('/:id/rating/:ratingId', auth, async (req, res) => {
 
         await component.save();
 
-        res.json(component);
+        res.json({ msg: "rating deleted" });
 
     } catch (error) {
         console.log(error.message);
         return res.status(500).send('server error')
     }
 })
-
-
-
-
 
 module.exports = router;
