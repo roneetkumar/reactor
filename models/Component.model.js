@@ -21,10 +21,8 @@ const ComponentSchema = new Schema({
   ],
   images: [
     {
-      url: {
-        type: String,
-        required: true,
-      },
+      type: String,
+      required: true,
     },
   ],
   description: {
@@ -69,7 +67,6 @@ const ComponentSchema = new Schema({
     type: String,
   },
   creator: {
-
     name: {
       type: String,
       required: true,

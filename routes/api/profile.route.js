@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Profile = require("../../models/Profile.model");
+const Component = require("../../models/Component.model");
 const { check, validationResult } = require("express-validator");
 const User = require("../../models/User.model");
 const request = require("request");
@@ -131,12 +132,16 @@ router.get("/:profileid", async (req, res) => {
 });
 
 //@route  Delete api/profile
-//@desc  Delete profile ,user and post
+//@desc  Delete profile ,user and component(Account)
 //@access private
 router.delete("/", auth, async (req, res) => {
   try {
+
+    const profileId = await Profile.findById({user:req.user.id})._id
+
     //Delete component
-    // await component.deleteMany({ user: req.user.id });
+    await Component.deleteMany({ profile: profileId });
+
     //delete profile
     await Profile.findOneAndRemove({
       user: req.user.id,

@@ -23,7 +23,7 @@
 
 - like
   - api/component/:id/like [put]
-  - api/component/:id/unlike [put]
+  <!-- - api/component/:id/unlike [put] -->
 
 - rating
   - api/component/:id/rating [get]
