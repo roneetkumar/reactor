@@ -1,9 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const config = require("config");
 const { check, validationResult } = require("express-validator");
 const auth = require("../../middleware/auth.middleware");
-const git = require("../../middleware/git-component.middleware");
+const git = require("../../middleware/git.middleware");
 const User = require("../../models/User.model");
 const Component = require("../../models/Component.model");
 const Profile = require('../../models/Profile.model')
@@ -12,7 +11,7 @@ const Profile = require('../../models/Profile.model')
 //@desc   create component
 //@access private
 router.post('/', [
-    [git, auth],
+    [auth, git],
     [
         check("name", "name is required").notEmpty(),
         check("images", "image is required").isURL().isArray(),
