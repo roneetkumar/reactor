@@ -4,8 +4,6 @@ const Profile = require("../../models/Profile.model");
 const Component = require("../../models/Component.model");
 const { check, validationResult } = require("express-validator");
 const User = require("../../models/User.model");
-const request = require("request");
-const config = require("config");
 const auth = require("../../middleware/auth.middleware");
 
 //@route  GET api/profile/me
@@ -112,7 +110,6 @@ router.get("/", async (req, res) => {
 //@desc  get  profile  by user id
 //@access public
 router.get("/:profileid", async (req, res) => {
-
   try {
     const profile = await Profile.findOne({
       _id: req.params.profileid,
@@ -136,8 +133,7 @@ router.get("/:profileid", async (req, res) => {
 //@access private
 router.delete("/", auth, async (req, res) => {
   try {
-
-    const profileId = await Profile.findById({user:req.user.id})._id
+    const profileId = await Profile.findById({ user: req.user.id })._id;
 
     //Delete component
     await Component.deleteMany({ profile: profileId });

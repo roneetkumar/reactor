@@ -13,10 +13,8 @@ const ComponentSchema = new Schema({
   },
   downloadedBy: [
     {
-      user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "user",
-      },
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "user",
     },
   ],
   images: [
@@ -62,7 +60,6 @@ const ComponentSchema = new Schema({
       },
     },
   ],
-
   size: {
     type: String,
   },
@@ -82,8 +79,8 @@ const ComponentSchema = new Schema({
   },
   url: {
     type: String,
-    required: true
-  }
+    required: true,
+  },
 });
 
 module.exports = Component = mongoose.model("component", ComponentSchema);
