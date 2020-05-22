@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const {check,validationResult} = require('express-validator')
+const { check, validationResult } = require('express-validator')
 const User = require('../../models/User.model')
 const bcrypyt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -12,7 +12,7 @@ router.post(
     [
         check('name', 'Name required').notEmpty(),
         check('email', 'Email required').isEmail(),
-        check('password', 'Length should be more than 8 character').isLength({min:8}),
+        check('password', 'Length should be more than 8 character').isLength({ min: 8 }),
         check('type', 'Type required').notEmpty(),
     ],
     async (req, res) => {
@@ -20,25 +20,23 @@ router.post(
 
         // Checking Errors
         if (!errors.isEmpty()) {
-            return res.status(400).json({errors:errors.array()})
+            return res.status(400).json({ errors: errors.array() })
         }
 
         try {
 
             // Data from request body
-            const { name,email,password,type} = req.body;
+            const { name, email, password, type } = req.body;
 
             let user = await User.findOne({ email });
 
             // Checking if user exists
             if (user) {
-                return res.status(400).json({errors:[{msg:'User already exists'}]});
+                return res.status(400).json({ errors: [{ msg: 'User already exists' }] });
             }
 
             // New user
-            user = new User({
-                name,email,password,type
-            })
+            user = new User({ name, email, password, type })
 
             //Password encryption
             const salt = await bcrypyt.genSalt(10);
@@ -72,7 +70,5 @@ router.post(
 
     }
 )
-
-
 
 module.exports = router

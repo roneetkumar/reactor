@@ -12,6 +12,7 @@
   - api/profile/:id [get]
   - api/profile [post]
   - api/profile/:id [delete]
+  - api/profile/:id/follow [put]
 
 - component
 
@@ -20,20 +21,14 @@
   - api/component/profile/:id [get]
   - api/component/:id [get]
   - api/component/:id [delete]
-  - api/component/:id [put]
   - api/component/:id/download [put]
 
 - like
-
   - api/component/:id/like [put]
-  <!-- - api/component/:id/unlike [put] -->
 
 - rating
-
   - api/component/:id/rating [get]
   - api/component/:id/rating/:id [delete]
   - api/component/:id/rating/:id [get]
 
   --TODO--
-
-  - upadare component
