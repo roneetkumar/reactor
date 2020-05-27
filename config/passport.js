@@ -1,34 +1,47 @@
 const GitHubStrategy = require('passport-github2').Strategy;
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
+const config = require("config");
 
-const GITHUB_CLIENT_ID = "d1ec37c447c66bd03a0c";
-const GITHUB_CLIENT_SECRET = "d122e6d80ea999cabbbbfb706bcd5910dd35ee09";
+
+
 
 const User = require('../models/User.model')
 const Profile = require('../models/Profile.model')
 
 
 passport.serializeUser((user, done) => {
-    console.log("1 :", user.id);
     done(null, user);
 });
 
 passport.deserializeUser((user, done) => {
-    console.log("2 :", user.id);
     done(null, user);
 });
 
 
 passport.use(new GitHubStrategy({
-    clientID: GITHUB_CLIENT_ID,
-    clientSecret: GITHUB_CLIENT_SECRET,
+    clientID: config.get("GITHUB_CLIENT_ID"),
+    clientSecret: config.get("GITHUB_CLIENT_SECRET"),
     callbackURL: "http://localhost:1000/github/callback"
 }, function (accessToken, refreshToken, profile, done) {
 
     process.nextTick(async () => {
         try {
-            const { name, email } = profile._json;
+            const { name, email, login, node_id, avatar_url, html_url, company, blog, location, hireable, bio } = profile._json;
+
+            const data_profile = {
+                name,
+                email,
+                username: login,
+                avatar: avatar_url,
+                git_id: node_id,
+                git_url: html_url,
+                company,
+                website: blog,
+                location,
+                bio,
+                hireable
+            }
 
             let user = await User.findOne({ email });
 
@@ -46,12 +59,30 @@ passport.use(new GitHubStrategy({
             if (profile_data === null) {
                 profile_data = new Profile({
                     user: user._id,
-                    github_info: profile._json
+                    github_info: data_profile
                 })
                 await profile_data.save()
             }
 
-            done(null, profile)
+            //JWT
+            const payload = {
+                user: {
+                    id: user.id,
+                },
+            };
+
+            jwt.sign(
+                payload,
+                config.get("jwtSecret"),
+                { expiresIn: 360000 },
+                (err, token) => {
+                    if (err) throw err;
+                    console.log(token);
+
+                }
+            );
+
+            done(null, profile_data)
         } catch (error) {
             console.log(error);
         }

@@ -35,6 +35,11 @@ const ProfileSchema = new mongoose.Schema({
 	// githubusername: {
 	// 	type: String,
 	// },
+	skills: [
+		{
+			type: String
+		}
+	],
 
 	experience: [
 		{

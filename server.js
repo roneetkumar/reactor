@@ -1,8 +1,8 @@
 const express = require("express");
 const passport = require('passport')
 const connectDB = require("./config/db");
-const passport_setup = require('./config/passport')
 const app = express();
+require('./config/passport')
 
 connectDB();
 
@@ -16,17 +16,19 @@ app.get('/github',
     }
 );
 
-app.get('/github/callback', passport.authenticate('github'), (req, res) => {
-    res.redirect('/')
+
+app.get('/github/callback', passport.authenticate('github'), (reqs, res) => {
+    res.redirect(307, '/api/profile')
+
 });
+
 
 
 //Middleware: Body Pasrser
 app.use(express.json({ extended: false }));
 
 app.get("/", (req, res) => {
-    console.log(req.user);
-    res.send("API is running.. : " + req);
+    res.send("API is running.. : ");
 });
 
 //Routes

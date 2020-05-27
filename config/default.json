@@ -1,4 +1,6 @@
 {
     "mongoURI": "mongodb+srv://roneetkumar:v@t6mGipWjyW9ys@reactor-db-pbvec.mongodb.net/test?retryWrites=true&w=majority",
-    "jwtSecret": "winteriscoming"
+    "jwtSecret": "winteriscoming",
+    "GITHUB_CLIENT_ID": "d1ec37c447c66bd03a0c",
+    "GITHUB_CLIENT_SECRET": "d122e6d80ea999cabbbbfb706bcd5910dd35ee09"
 }
