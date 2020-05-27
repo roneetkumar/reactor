@@ -30,57 +30,47 @@ router.get("/me", auth, async (req, res) => {
 //@access private
 router.post(
 	"/",
-	[auth, [check("githubusername", "Github username is required").notEmpty()]],
+	[auth],
 	async (req, res) => {
-		const errors = validationResult(req);
-		if (!errors.isEmpty()) {
-			return res.status(400).json({ errors: errors.array() });
-		}
 
-		const {
+		let {
 			website,
 			location,
 			bio,
-			status,
-			githubusername,
 			skills,
 			links,
+			company,
+			hireable,
 		} = req.body;
 
 		//build profile object
-		const profileFields = {};
-		profileFields.user = req.user.id;
-		if (website) profileFields.website = website;
-		if (location) profileFields.location = location;
-		if (bio) profileFields.bio = bio;
-		if (status) profileFields.status = status;
-		if (githubusername) profileFields.githubusername = githubusername;
+		const new_info = {};
+
+		if (website) new_info.website = website;
+		if (location) new_info.location = location;
+		if (bio) new_info.bio = bio;
+		if (company) new_info.company = company;
+		if (hireable) new_info.hireable = hireable;
 		if (skills) {
-			profileFields.skills = skills.split(",").map((skill) => skill.trim());
+			skills = skills.split(",").map((skill) => skill.trim().toUpperCase());
 		}
 
 		//build social object
-
 		if (links) {
-			profileFields.links = [...links];
+			links = [...links];
 		}
 
 		try {
-			let profile = await Profile.findOne({ user: req.user.id });
-
 			//update
-			if (profile) {
-				profile = await Profile.findOneAndUpdate(
-					{ user: req.user.id },
-					{ $set: profileFields },
-					{ new: true }
-				);
-				return res.json(profile);
-			}
+			profile = await Profile.findOne({ user: req.user.id });
 
-			//create
-			profile = new Profile(profileFields);
-			await profile.save();
+			profile.github_info = { ...profile.github_info, ...new_info };
+
+			profile.skills = skills
+			profile.links = links
+
+			profile = await profile.save();
+
 			res.send(profile);
 		} catch (err) {
 			console.error(err.message);
@@ -93,6 +83,7 @@ router.post(
 //@desc  get all profiles
 //@access public
 router.get("/", async (req, res) => {
+
 	try {
 		const profiles = await Profile.find().populate("user", [
 			"name",

@@ -8,6 +8,7 @@ const { check, validationResult } = require("express-validator");
 const auth = require("../../middleware/auth.middleware");
 const User = require("../../models/User.model");
 
+
 // @route   GET api/auth
 // @desc    Test Route
 // @access  Public

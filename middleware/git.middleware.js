@@ -1,9 +1,10 @@
 const axios = require("axios");
 const Profile = require("../models/Profile.model");
 module.exports = async function (req, res, next) {
+
 	const profile = await Profile.findOne({ user: req.user.id });
 	const gitRes = await axios.get(
-		`https://api.github.com/repos/${profile.githubusername}/${req.body.repo}`
+		`https://api.github.com/repos/${profile.github_info.login}/${req.body.repo}`
 	);
 
 	let images = [];
@@ -11,7 +12,7 @@ module.exports = async function (req, res, next) {
 	for (let i = 1; i <= 5; i++) {
 		try {
 			let img = await axios.get(
-				`https://github.com/${profile.githubusername}/${
+				`https://github.com/${profile.github_info.login}/${
 				req.body.repo
 				}/blob/master/imgs/${i}.${"jpg"}?raw=true`
 			);

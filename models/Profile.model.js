@@ -5,30 +5,41 @@ const ProfileSchema = new mongoose.Schema({
 		type: mongoose.Schema.Types.ObjectId,
 		ref: "user",
 	},
-	website: {
-		type: String,
+
+	github_info: {
+		type: Object
 	},
 
-	location: {
-		type: String,
-	},
 
-	status: {
-		type: String,
-		required: true,
-	},
+	// website: {
+	// 	type: String,
+	// },
 
-	avatar: {
-		type: String,
-	},
+	// location: {
+	// 	type: String,
+	// },
 
-	bio: {
-		type: String,
-	},
+	// status: {
+	// 	type: String,
+	// 	required: true,
+	// },
 
-	githubusername: {
-		type: String,
-	},
+	// avatar: {
+	// 	type: String,
+	// },
+
+	// bio: {
+	// 	type: String,
+	// },
+
+	// githubusername: {
+	// 	type: String,
+	// },
+	skills: [
+		{
+			type: String
+		}
+	],
 
 	experience: [
 		{
