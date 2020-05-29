@@ -3,19 +3,16 @@ const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const config = require("config");
 
-
-
-
 const User = require('../models/User.model')
 const Profile = require('../models/Profile.model')
 
 
-passport.serializeUser((user, done) => {
-    done(null, user);
+passport.serializeUser((token, done) => {
+    done(null, token);
 });
 
-passport.deserializeUser((user, done) => {
-    done(null, user);
+passport.deserializeUser((token, done) => {
+    done(null, token);
 });
 
 
@@ -46,7 +43,7 @@ passport.use(new GitHubStrategy({
             let user = await User.findOne({ email });
 
             if (user === null) {
-                const user = new User({
+                user = new User({
                     name: name,
                     email: email,
                     type: 'dev',
@@ -77,12 +74,10 @@ passport.use(new GitHubStrategy({
                 { expiresIn: 360000 },
                 (err, token) => {
                     if (err) throw err;
-                    console.log(token);
-
+                    done(null, token)
                 }
             );
 
-            done(null, profile_data)
         } catch (error) {
             console.log(error);
         }

@@ -4,7 +4,7 @@ module.exports = async function (req, res, next) {
 
 	const profile = await Profile.findOne({ user: req.user.id });
 	const gitRes = await axios.get(
-		`https://api.github.com/repos/${profile.github_info.login}/${req.body.repo}`
+		`https://api.github.com/repos/${profile.github_info.username}/${req.body.repo}`
 	);
 
 	let images = [];

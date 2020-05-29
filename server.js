@@ -16,10 +16,8 @@ app.get('/github',
     }
 );
 
-
-app.get('/github/callback', passport.authenticate('github'), (reqs, res) => {
-    res.redirect(307, '/api/profile')
-
+app.get('/github/callback', passport.authenticate('github'), (req, res) => {
+    res.send(req.user);
 });
 
 

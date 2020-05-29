@@ -30,7 +30,7 @@ router.get("/me", auth, async (req, res) => {
 //@access private
 router.post(
 	"/",
-	[auth],
+	auth,
 	async (req, res) => {
 
 		let {
