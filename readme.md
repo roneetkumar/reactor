@@ -24,11 +24,18 @@
   - api/component/:id/download [put]
 
 - like
+
   - api/component/:id/like [put]
 
 - rating
-  - api/component/:id/rating [get]
+
+  - api/component/:id/rating
   - api/component/:id/rating/:id [delete]
   - api/component/:id/rating/:id [get]
 
   --TODO--
+
+- messages
+  - api/message/:tid [get]
+  - api/message [post]
+  -
