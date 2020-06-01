@@ -4,25 +4,47 @@ const { check, validationResult } = require("express-validator");
 const auth = require("../../middleware/auth.middleware");
 const User = require("../../models/User.model");
 const Message = require("../../models/Message.model");
+const axios = require('axios');
+
+
 // @route   GET api/message/:id
 // @desc    get messages
 // @access  private
 router.get("/:toId", auth, async (req, res) => {
   try {
-    const user = await Message.findOne({ user: req.user.id });
+    const toUser = await Message.findOne({ user: req.user.id });
+    const fromUser = await Message.findOne({ user: req.params.toId });
 
-    let to = user.to.filter((to) => to.id.toString() === req.params.toId);
+    let fromMessages = [];
+    let toMessages = [];
 
-    if (to.length > 0) {
-      return res.json(to[0].messages);
+    //check if toUser exist
+    if (toUser) {
+      toMessages = toUser.to.filter((to) => to.id.toString() === req.params.toId);
+    }
+    //check if fromUser exist
+    if (fromUser) {
+      fromMessages = fromUser.to.filter((to) => to.id.toString() === req.user.id);
+    }
+    //create empty object
+    const messages = { user: null, friend: null }
+
+
+    if (fromMessages.length != 0) {
+      messages.user = fromMessages[0]
+    }
+    if (toMessages.length != 0) {
+      messages.friend = toMessages[0]
     }
 
-    return res.send(to);
+    return res.send(messages);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("server error");
   }
 });
+
+
 
 // @route   GET api/message/:id
 // @desc    send messages
@@ -68,7 +90,32 @@ router.post("/:toId", auth, async (req, res) => {
     }
 
     mesRetreived.save();
-    res.json(mesRetreived);
+
+    res.json(messages);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send("Server error");
+  }
+});
+
+// @route   GET api/message/:id
+// @desc    send messages
+// @access  private
+router.delete("/:friendId/:id", auth, async (req, res) => {
+  try {
+    const user = await Message.findOne({ user: req.user.id });
+
+    user.to.filter(to => {
+      if (to.id.toString() === req.params.friendId) {
+        to.messages = to.messages.filter(message => message._id.toString() !== req.params.id
+        )
+      }
+    })
+
+    user.save()
+
+    res.status(200).json({ 'msg': "message successfully deleted" })
+
   } catch (error) {
     console.error(error.message);
     res.status(500).send("Server error");

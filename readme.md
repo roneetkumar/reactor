@@ -38,4 +38,4 @@
 - messages
   - api/message/:tid [get]
   - api/message [post]
-  -
+  - api/message/:id [delete]
