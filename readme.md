@@ -1,7 +1,6 @@
 # Reactor
 
 - user
-
   - api/auth [post]
   - api/user [post]
 
@@ -15,7 +14,6 @@
   - api/profile/:id/follow [put]
 
 - component
-
   - api/component [post]
   - api/component [get]
   - api/component/profile/:id [get]
@@ -24,18 +22,27 @@
   - api/component/:id/download [put]
 
 - like
-
   - api/component/:id/like [put]
 
 - rating
-
   - api/component/:id/rating
   - api/component/:id/rating/:id [delete]
   - api/component/:id/rating/:id [get]
-
-  --TODO--
 
 - messages
   - api/message/:tid [get]
   - api/message [post]
   - api/message/:id [delete]
+
+----TODO--
+
+- cart
+  - api/cart/:itemId [post]
+  - api/cart/:itemId [delete]
+  - api/cart [get]
+
+
+- wishlist
+  - api/wishlist/:itemId [post]
+  - api/wishlist/:itemId [delete]
+  - api/wishlist [get]

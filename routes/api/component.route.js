@@ -16,7 +16,8 @@ router.post(
 		[auth, git],
 		[
 			check("name", "name is required").notEmpty(),
-			check("images", "image is required").isURL().isArray(),
+			check("images", "image is not url").isURL(),
+			check("images", "image is required").isArray(),
 			check("description", "description is required").notEmpty(),
 			check("url", "url is required").isURL(),
 			check("size", "size is required").isNumeric(),

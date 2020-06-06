@@ -34,6 +34,7 @@ app.use("/api/users", require("./routes/api/users.route"));
 app.use("/api/profile", require("./routes/api/profile.route"));
 app.use("/api/component", require("./routes/api/component.route"));
 app.use("/api/message", require("./routes/api/message.route"));
+app.use("/api/wishlist", require("./routes/api/wishlist.route"));
 
 const PORT = process.env.PORT || 1000;
 

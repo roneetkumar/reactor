@@ -2,9 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { check, validationResult } = require("express-validator");
 const auth = require("../../middleware/auth.middleware");
-const User = require("../../models/User.model");
 const Message = require("../../models/Message.model");
-const axios = require('axios');
 
 
 // @route   GET api/message/:id
@@ -27,15 +25,25 @@ router.get("/:toId", auth, async (req, res) => {
       fromMessages = fromUser.to.filter((to) => to.id.toString() === req.user.id);
     }
     //create empty object
-    const messages = { user: null, friend: null }
-
+    const messages = []
 
     if (fromMessages.length != 0) {
-      messages.user = fromMessages[0]
+      fromMessages = fromMessages[0].messages.map(m => {
+        const { date, _id, text } = m
+        return { date, text, _id, id: req.params.toId }
+      })
+      messages.push(...fromMessages)
     }
+
     if (toMessages.length != 0) {
-      messages.friend = toMessages[0]
+      toMessages = toMessages[0].messages.map(m => {
+        const { date, _id, text } = m
+        return { date, text, _id, id: req.user.id }
+      })
+      messages.push(...toMessages)
     }
+
+    messages.sort((a, b) => new Date(a.date) - new Date(b.date))
 
     return res.send(messages);
   } catch (err) {
@@ -91,7 +99,7 @@ router.post("/:toId", auth, async (req, res) => {
 
     mesRetreived.save();
 
-    res.json(messages);
+    res.json(mesRetreived);
   } catch (error) {
     console.error(error.message);
     res.status(500).send("Server error");
